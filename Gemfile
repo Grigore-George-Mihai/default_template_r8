@@ -7,6 +7,7 @@ gem "kamal", require: false
 gem "propshaft"
 gem "puma", ">= 5.0"
 gem "rails", "~> 8.0.2", ">= 8.0.2.1"
+gem "redis"
 gem "stimulus-rails"
 gem "thruster", require: false
 gem "turbo-rails"
