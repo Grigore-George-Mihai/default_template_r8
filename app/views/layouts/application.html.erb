@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Default Template V8" %></title>
+    <title><%= content_for(:title) || "Default Template R8" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <%= favicon_link_tag %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -17,12 +18,17 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="min-h-svh md:min-h-dvh flex flex-col overflow-x-hidden">
+    <%= render "layouts/partials/header" %>
+
+    <main class="flex-1 grid place-items-center px-4 sm:px-6 lg:px-8 py-2 md:py-4">
+      <%= yield %>
+    </main>
+
+    <%= render "layouts/partials/footer" %>
   </body>
 </html>

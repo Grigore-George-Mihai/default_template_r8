@@ -2,8 +2,8 @@
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t default_template_v8 .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name default_template_v8 default_template_v8
+# docker build -t default_template_r8 .
+# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name default_template_r8 default_template_r8
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
@@ -47,9 +47,6 @@ RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-
-
 
 # Final stage for app image
 FROM base

@@ -1,0 +1,49 @@
+<div class="w-full max-w-md">
+  <h1 class="text-2xl font-semibold tracking-tight text-center text-gray-900">Sign in</h1>
+  <p class="mt-1 text-center text-sm text-gray-500">Welcome back — please sign in to continue</p>
+
+  <% if resource.errors.any? %>
+    <div class="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+      <ul class="list-disc pl-5 space-y-1">
+        <% resource.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mt-6 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5" }) do |f| %>
+      <div>
+        <label class="block text-sm font-medium text-gray-700" for="<%= "#{resource_name}_email" %>">Email</label>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "you@example.com",
+                          class: "mt-1 block w-full rounded-xl border-0 bg-white px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600" %>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700" for="<%= "#{resource_name}_password" %>">Password</label>
+        <%= f.password_field :password, autocomplete: "current-password", placeholder: "••••••••",
+                             class: "mt-1 block w-full rounded-xl border-0 bg-white px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center justify-between">
+          <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+            <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+            Remember me
+          </label>
+          <%= link_to "Forgot your password?", new_password_path(resource_name),
+                      class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+        </div>
+      <% end %>
+
+      <%= f.submit "Sign in",
+                   class: "w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2" %>
+    <% end %>
+  </div>
+
+  <div class="mt-4 text-center text-sm text-gray-600">
+    <%= link_to "Need an account? Sign up", new_registration_path(resource_name),
+                class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+  </div>
+</div>

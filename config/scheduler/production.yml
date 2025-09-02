@@ -1,0 +1,10 @@
+schedule:
+  capture_query_stats_job:
+    cron: "0 * * * *"          # every hour
+    class: "Pg::CaptureQueryStatsJob"
+    queue: "maintenance"
+
+  clear_query_stats_job:
+    cron: "0 0 * * 0"          # Sundays at 00:00
+    class: "Pg::ClearQueryStatsJob"
+    queue: "maintenance"
