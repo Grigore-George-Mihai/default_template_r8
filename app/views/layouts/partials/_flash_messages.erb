@@ -1,0 +1,15 @@
+<% flash.each do |type, message| %>
+  <div data-controller="flash"
+       class="fixed top-6 right-6 z-50 w-110 mb-4 rounded-lg border px-6 py-4 shadow-lg text-base <%= tailwind_class_for(type) %>"
+       role="alert">
+    <button type="button"
+            data-action="click->flash#close"
+            class="absolute top-2 right-2 text-xl leading-none font-bold text-gray-500 hover:text-gray-700">
+      ×
+    </button>
+    <div class="text-center">
+      <span class="font-medium"><%= message %></span>
+    </div>
+  </div>
+<% end %>
+
