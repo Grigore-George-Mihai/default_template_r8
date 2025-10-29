@@ -7,7 +7,6 @@ This repository serves as a default template for a monolithic Ruby on Rails (RoR
 - [Installation](#installation)
 - [Setup](#setup)
 - [Gems](#gems)
-- [Rake Tasks](#rake-tasks)
 - [Docker Setup](#docker-setup)
 - [Contact](#contact)
 
@@ -93,15 +92,6 @@ bin/rails db:seed      # Loads seed data
 
 **Environment Management**
 - [Dotenv Rails](https://github.com/bkeepers/dotenv): Loads environment variables from `.env`.
-
----
-
-### Rake Tasks
-Run the following rake task to check for security risks in your application:
-```bash
-bin/rails security:check
-```
-- This task runs tools like Brakeman and Bundler Audit to ensure your application is secure.
 
 ---
 
