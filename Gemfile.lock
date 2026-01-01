@@ -364,7 +364,7 @@ GEM
     rubyzip (3.2.2)
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
-    scout_apm (5.8.0)
+    scout_apm (6.0.2)
       parser
     securerandom (0.4.1)
     selenium-webdriver (4.38.0)
