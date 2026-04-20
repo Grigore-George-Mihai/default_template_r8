@@ -57,6 +57,7 @@ bin/rails db:seed      # Loads seed data
 **Database and Monitoring**
 - [Pg](https://github.com/ged/ruby-pg): PostgreSQL driver for Ruby, providing fast and efficient database connectivity.
 - [PgHero](https://github.com/ankane/pghero): A tool for monitoring PostgreSQL database performance, including query insights, index suggestions, and table size analysis.
+- [Pagy](https://github.com/ddnexus/pagy): Fast and lightweight pagination library. Use `pagy(:offset, collection)` in controllers; render with `@pagy.series_nav` in views.
 
 **Authentication**
 - [Devise](https://github.com/heartcombo/devise): Flexible authentication solution for Rails based on Warden.
@@ -89,6 +90,9 @@ bin/rails db:seed      # Loads seed data
 **Security**
 - [Brakeman](https://github.com/presidentbeef/brakeman): Static analysis tool for finding security vulnerabilities in Rails applications.
 - [Bundler Audit](https://github.com/rubysec/bundler-audit): Scans your Gemfile for known vulnerabilities.
+
+**Development Utilities**
+- [Letter Opener Web](https://github.com/fgrehm/letter_opener_web): Preview sent emails in the browser during development at `/letter_opener`.
 
 **Environment Management**
 - [Dotenv Rails](https://github.com/bkeepers/dotenv): Loads environment variables from `.env`.

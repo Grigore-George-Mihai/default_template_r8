@@ -2,68 +2,86 @@
   <nav class="container mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <!-- Brand -->
-      <div>
-        <%= link_to "MyApp", root_path, class: "text-lg font-semibold tracking-tight hover:text-gray-700" %>
+      <div class="flex items-center gap-2">
+        <%= link_to root_path, class: "text-indigo-500 hover:text-indigo-600" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" aria-hidden="true">
+            <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+            <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+          </svg>
+        <% end %>
+        <%= link_to "Home", root_path, class: "text-sm font-medium text-gray-700 hover:text-indigo-600 transition" %>
       </div>
 
       <!-- Desktop nav -->
-      <div class="hidden md:flex items-center gap-6">
-        <%= link_to "Home", root_path, class: "text-sm font-medium hover:text-indigo-600 transition" %>
+      <% if user_signed_in? %>
+        <div class="hidden md:flex items-center gap-2">
+          <% if current_user.admin? %>
+            <details class="relative" data-controller="base--dropdown" data-action="toggle->base--dropdown#closeOthers">
+              <summary class="list-none cursor-pointer select-none inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">
+                Admin
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-500" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </summary>
+              <div class="absolute right-0 mt-1 w-44 rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden z-20">
+                <ul class="py-1 text-sm text-gray-700">
+                  <li><%= link_to "Sidekiq", "/sidekiq", class: "block px-4 py-2 hover:bg-gray-50", target: "_blank" %></li>
+                  <li><%= link_to "PgHero", "/pghero", class: "block px-4 py-2 hover:bg-gray-50", target: "_blank" %></li>
+                  <% if Rails.env.development? %>
+                    <li><%= link_to "Mailbox", "/letter_opener", class: "block px-4 py-2 hover:bg-gray-50", target: "_blank" %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </details>
+          <% end %>
 
-        <% if user_signed_in? %>
-          <!-- Desktop dropdown (no JS) -->
-          <details class="relative">
-            <summary class="list-none cursor-pointer select-none inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-100">
-              Options
-              <i class="fa-solid fa-chevron-down text-gray-500 text-xs" aria-hidden="true"></i>
+          <details class="relative" data-controller="base--dropdown" data-action="toggle->base--dropdown#closeOthers">
+            <summary class="list-none cursor-pointer select-none inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">
+              Account
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-500" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
             </summary>
-            <div class="absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden z-20">
-              <ul class="py-1 text-sm">
-                <% if current_user.admin? %>
-                  <li>
-                    <%= link_to "Admin", root_path, class: "block px-4 py-2 hover:bg-gray-50" %>
-                  </li>
-                <% end %>
-                <li>
-                  <%= link_to "Profile", edit_user_registration_path, class: "block px-4 py-2 hover:bg-gray-50" %>
-                </li>
-                <li>
-                  <%= link_to "Logout", destroy_user_session_path, class: "block px-4 py-2 hover:bg-gray-50", data: { turbo_method: :delete } %>
-                </li>
+            <div class="absolute right-0 mt-1 w-44 rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden z-20">
+              <ul class="py-1 text-sm text-gray-700">
+                <li><%= link_to "Profile", edit_user_registration_path, class: "block px-4 py-2 hover:bg-gray-50" %></li>
+                <li><%= link_to "Logout", destroy_user_session_path, class: "block px-4 py-2 hover:bg-gray-50", data: { turbo_method: :delete } %></li>
               </ul>
             </div>
           </details>
-        <% end %>
-      </div>
+        </div>
 
-      <!-- Mobile menu toggle -->
-      <details class="md:hidden">
-        <summary class="list-none inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          <span class="sr-only">Open main menu</span>
-          <i class="fa-solid fa-bars text-gray-700 text-xl" aria-hidden="true"></i>
-        </summary>
-
-        <!-- Mobile menu panel -->
-        <div class="mt-2 bg-white border rounded-xl shadow-sm overflow-hidden">
-          <nav class="px-2 py-3">
-            <%= link_to "Home", root_path,
-                        class: "block rounded-md px-3 py-2 text-base font-medium hover:bg-gray-100" %>
-          </nav>
-
-          <% if user_signed_in? %>
+        <!-- Mobile menu toggle -->
+        <details class="md:hidden">
+          <summary class="list-none inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <span class="sr-only">Open main menu</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-700" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </summary>
+          <div class="mt-2 bg-white border rounded-xl shadow-sm overflow-hidden">
+            <% if current_user.admin? %>
+              <div class="px-2 py-3">
+                <p class="px-1 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Admin</p>
+                <nav class="space-y-1">
+                  <%= link_to "Sidekiq", "/sidekiq", class: "block rounded-md px-3 py-2 text-sm hover:bg-gray-100", target: "_blank" %>
+                  <%= link_to "PgHero", "/pghero", class: "block rounded-md px-3 py-2 text-sm hover:bg-gray-100", target: "_blank" %>
+                  <% if Rails.env.development? %>
+                    <%= link_to "Mailbox", "/letter_opener", class: "block rounded-md px-3 py-2 text-sm hover:bg-gray-100", target: "_blank" %>
+                  <% end %>
+                </nav>
+              </div>
+            <% end %>
             <div class="border-t px-2 py-3">
-              <p class="px-1 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Options</p>
+              <p class="px-1 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Account</p>
               <nav class="space-y-1">
-                <% if current_user.admin? %>
-                  <%= link_to "Admin", root_path, class: "block rounded-md px-3 py-2 hover:bg-gray-100" %>
-                <% end %>
-                <%= link_to "Profile", edit_user_registration_path, class: "block rounded-md px-3 py-2 hover:bg-gray-100" %>
-                <%= link_to "Logout", destroy_user_session_path, class: "block rounded-md px-3 py-2 hover:bg-gray-100", data: { turbo_method: :delete } %>
+                <%= link_to "Profile", edit_user_registration_path, class: "block rounded-md px-3 py-2 text-sm hover:bg-gray-100" %>
+                <%= link_to "Logout", destroy_user_session_path, class: "block rounded-md px-3 py-2 text-sm hover:bg-gray-100", data: { turbo_method: :delete } %>
               </nav>
             </div>
-          <% end %>
-        </div>
-      </details>
+          </div>
+        </details>
+      <% end %>
     </div>
   </nav>
 </header>

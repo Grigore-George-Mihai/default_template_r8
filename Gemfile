@@ -22,7 +22,8 @@ gem "sidekiq"
 gem "sidekiq-scheduler"
 
 # Database and Performance Tracking
-gem "pg", "~> 1.1"
+gem "pagy"
+gem "pg", "~> 1.5"
 gem "pghero"
 
 # Authentication
@@ -58,6 +59,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "letter_opener_web"
   gem "web-console"
 
   # Performance
