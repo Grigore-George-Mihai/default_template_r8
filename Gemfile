@@ -15,7 +15,7 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 
 # Tailwind
 gem "tailwindcss-rails", "~> 4.3"
-gem "tailwindcss-ruby", "~> 4.1"
+gem "tailwindcss-ruby", "~> 4.2"
 
 # BackgroundJob and Scheduling
 gem "sidekiq"
