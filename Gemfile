@@ -14,7 +14,7 @@ gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[windows jruby]
 
 # Tailwind
-gem "tailwindcss-rails", "~> 4.3"
+gem "tailwindcss-rails", "~> 4.6"
 gem "tailwindcss-ruby", "~> 4.1"
 
 # BackgroundJob and Scheduling
