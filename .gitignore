@@ -41,6 +41,9 @@
 # Ignore SimpleCov coverage reports
 /coverage/
 
+# Ignore RSpec example status file (used by --only-failures)
+/spec/examples.txt
+
 # Ignore editor swap files and temporary files
 *~
 *.swp

@@ -46,6 +46,9 @@ RSpec.configure do |config|
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
+  # Persist example status between runs to support `--only-failures` and `--next-failure`.
+  config.example_status_persistence_file_path = "spec/examples.txt"
+
   # The settings below are suggested to provide a good initial experience
   # with RSpec, but feel free to customize to your heart's content.
   #   # This allows you to limit a spec run to individual examples or groups

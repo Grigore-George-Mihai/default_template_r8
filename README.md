@@ -7,6 +7,7 @@ This repository serves as a default template for a monolithic Ruby on Rails (RoR
 - [Installation](#installation)
 - [Setup](#setup)
 - [Gems](#gems)
+- [Background Jobs](#background-jobs)
 - [Docker Setup](#docker-setup)
 - [Contact](#contact)
 
@@ -66,6 +67,7 @@ bin/rails db:seed      # Loads seed data
 - [Sidekiq](https://github.com/mperham/sidekiq): Efficient background processing for Ruby applications.
 - [Sidekiq-Scheduler](https://github.com/moove-it/sidekiq-scheduler): Extends Sidekiq to support scheduled and recurring jobs using a simple configuration.
 - [Redis](https://github.com/redis/redis-rb): In-memory data structure store used by Sidekiq for managing background job queues, scheduling, and retries.
+- [Solid Queue](https://github.com/rails/solid_queue): Database-backed Active Job backend, installed but opt-in. See [Switching to Solid Queue](#switching-to-solid-queue).
 
 
 **Performance Monitoring**
@@ -96,6 +98,37 @@ bin/rails db:seed      # Loads seed data
 
 **Environment Management**
 - [Dotenv Rails](https://github.com/bkeepers/dotenv): Loads environment variables from `.env`.
+
+---
+
+### Background Jobs
+**Sidekiq is the default** in every environment except test (which uses the in-memory `:test` adapter).
+
+- Sidekiq-native jobs live in `app/sidekiq/` and `include Sidekiq::Job`; recurring ones are scheduled in `config/scheduler/<env>.yml` (sidekiq-scheduler).
+- Active Job (`deliver_later`, `ApplicationJob` subclasses, Active Storage, Turbo broadcasts) is also routed to Sidekiq. Mail goes to the `mailers` queue.
+- Run a worker locally with `bin/dev` (Procfile.dev starts `bundle exec sidekiq`) or `docker-compose up`.
+- In production, Kamal runs Sidekiq as the `job` role and Redis as the `redis` accessory (`config/deploy.yml`). Boot the accessory once with `bin/kamal accessory boot redis`.
+
+#### Switching to Solid Queue
+Solid Queue is installed but dormant. To route **Active Job** through it instead of Sidekiq:
+
+1. In `config/environments/development.rb` and/or `production.rb`, replace `config.active_job.queue_adapter = :sidekiq` with the commented Solid Queue lines right below it.
+2. Make sure a `queue` database exists. Production already defines one in `config/database.yml`; for development add the same structure:
+   ```yaml
+   development:
+     primary:
+       <<: *default
+       database: default_template_r8_development
+     queue:
+       <<: *default
+       database: default_template_r8_development_queue
+       migrations_paths: db/queue_migrate
+   ```
+   then run `bin/rails db:prepare` (loads `db/queue_schema.rb`).
+3. Run the supervisor: `bin/jobs` as its own process/Kamal role, or `SOLID_QUEUE_IN_PUMA=true` to run it inside Puma.
+4. Define recurring Active Job tasks in `config/recurring.yml`.
+
+> **Limitation:** the adapter only affects Active Job. Classes in `app/sidekiq/` (including the PgHero jobs) and the sidekiq-scheduler schedule always need Redis and a Sidekiq process. To drop Sidekiq entirely, rewrite those jobs as `ApplicationJob` subclasses and move their schedule to `config/recurring.yml`.
 
 ---
 
