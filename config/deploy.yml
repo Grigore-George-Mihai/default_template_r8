@@ -45,8 +45,10 @@ registry:
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
+  # The DB password comes from .kamal/secrets (read from the deploying machine's ENV).
   secret:
     - RAILS_MASTER_KEY
+    - DEFAULT_TEMPLATE_R8_DATABASE_PASSWORD
   clear:
     # Sidekiq connects to the redis accessory over the Kamal docker network (container: <service>-redis).
     REDIS_SIDEKIQ_URL: redis://default_template_r8-redis:6379/1
@@ -107,11 +109,10 @@ builder:
 
 # Use accessory services (secrets come from .kamal/secrets).
 accessories:
-  # Redis for Sidekiq. Bound to localhost only; app containers reach it via the Kamal docker network.
+  # Redis for Sidekiq. No published port: app containers reach it over the Kamal docker network.
   redis:
     image: redis:7
     host: 192.168.0.1
-    port: "127.0.0.1:6379:6379"
     cmd: redis-server --appendonly yes
     directories:
       - data:/data

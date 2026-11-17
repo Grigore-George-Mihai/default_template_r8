@@ -1,14 +1,16 @@
-# Shared by the web, sidekiq and css services (all run the Dockerfile.dev image with the code mounted).
+# Shared by the web, sidekiq and css services: one Dockerfile.dev image (built by web), the code mounted.
+# `<<:` merges shallowly, so a service that sets its own `volumes` replaces the one here.
 x-app: &app
-  build:
-    context: .
-    dockerfile: Dockerfile.dev
+  image: default_template_r8-dev
   volumes:
     - .:/rails
 
 services:
   web:
     <<: *app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     command: >
       bash -c '
         rm -f tmp/pids/server.pid &&
