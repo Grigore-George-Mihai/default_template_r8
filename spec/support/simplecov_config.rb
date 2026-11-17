@@ -4,5 +4,4 @@ require "simplecov"
 
 SimpleCov.start "rails" do
   skip "/bin/"
-  skip "app/admin"
 end

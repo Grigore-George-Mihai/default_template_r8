@@ -1,7 +1,7 @@
 class CreatePgheroQueryStats < ActiveRecord::Migration[8.0]
-  enable_extension "pg_stat_statements" unless extension_enabled?("pg_stat_statements")
-
   def change
+    enable_extension "pg_stat_statements" unless extension_enabled?("pg_stat_statements")
+
     create_table :pghero_query_stats do |t|
       t.text :database
       t.text :user

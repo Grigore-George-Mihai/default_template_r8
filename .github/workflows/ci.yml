@@ -68,6 +68,12 @@ jobs:
   rspec:
     runs-on: ubuntu-latest
 
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+      # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      # REDIS_URL: redis://localhost:6379/0
+
     services:
       postgres:
         image: postgres:16
@@ -96,18 +102,12 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Setup Database
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-        run: bin/rails db:setup
+      # db:test:prepare loads the schema without seeding (db:setup/db:prepare would seed the test DB).
+      # test:prepare builds Tailwind (app/assets/builds is not committed; the layout needs it).
+      - name: Prepare database and assets
+        run: bin/rails db:test:prepare test:prepare
 
       - name: Run RSpec tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
         run: bundle exec rspec
 
       - name: Keep screenshots from failed system tests

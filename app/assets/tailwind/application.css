@@ -1,2 +1,14 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
+
+/* Tailwind v4 borders default to currentColor; restore the v3 gray-200 default so a bare
+   `border` doesn't render dark. Any `border-<colour>` utility still overrides this. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}

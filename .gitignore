@@ -79,6 +79,5 @@ Thumbs.db
 
 # LLM / AI tools
 .claude/
-CLAUDE.md
 .cursor/
 .copilot/
