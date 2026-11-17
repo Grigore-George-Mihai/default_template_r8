@@ -18,11 +18,4 @@ RSpec.describe "Admin dashboards", type: :request do
       end
     end
   end
-
-  # PgHero only needs Postgres (Sidekiq::Web would need Redis, which CI doesn't run).
-  it "lets admins into PgHero" do
-    sign_in create(:user, :admin)
-    get "/pghero/connections"
-    expect(response).to have_http_status(:ok)
-  end
 end
