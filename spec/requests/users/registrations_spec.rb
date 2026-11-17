@@ -30,6 +30,13 @@ RSpec.describe "Users::Registrations", type: :request do
       end
     end
 
+    context "with a role param" do
+      it "ignores it and creates a regular user" do
+        post user_registration_path, params: valid_params.deep_merge(user: { role: "admin" })
+        expect(User.find_by(email: "jane@example.com")).to be_user
+      end
+    end
+
     context "with missing first_name" do
       it "does not create a user and returns 422" do
         params = valid_params.deep_merge(user: { first_name: "" })

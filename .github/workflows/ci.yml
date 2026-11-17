@@ -96,11 +96,18 @@ jobs:
         with:
           bundler-cache: true
 
+      # db:test:prepare loads the schema without seeding (db:setup/db:prepare would seed the test DB).
       - name: Setup Database
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
-        run: bin/rails db:setup
+        run: bin/rails db:test:prepare
+
+      # app/assets/builds is not committed; the layout needs the compiled stylesheet.
+      - name: Build Tailwind CSS
+        env:
+          RAILS_ENV: test
+        run: bin/rails tailwindcss:build
 
       - name: Run RSpec tests
         env:

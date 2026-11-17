@@ -49,6 +49,10 @@ RSpec.configure do |config|
   # Persist example status between runs to support `--only-failures` and `--next-failure`.
   config.example_status_persistence_file_path = "spec/examples.txt"
 
+  # Run specs in random order to surface order dependencies. Reproduce a failing order with `--seed 1234`.
+  config.order = :random
+  Kernel.srand config.seed
+
   # The settings below are suggested to provide a good initial experience
   # with RSpec, but feel free to customize to your heart's content.
   #   # This allows you to limit a spec run to individual examples or groups

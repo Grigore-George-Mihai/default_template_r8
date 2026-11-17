@@ -11,6 +11,3 @@ AllCops:
 Layout/LineLength:
   Exclude:
     - 'config/initializers/devise.rb'
-
-Rails/EnumHash:
-  Enabled: false

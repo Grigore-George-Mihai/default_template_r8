@@ -1,10 +1,9 @@
+# Queues come from each job's `sidekiq_options`; only set `queue:` here to override it.
 schedule:
   capture_query_stats_job:
     cron: "0 * * * *"
     class: "Pg::CaptureQueryStatsJob"
-    queue: "maintenance"
 
   clear_query_stats_job:
     cron: "0 0 * * 0"
     class: "Pg::ClearQueryStatsJob"
-    queue: "maintenance"

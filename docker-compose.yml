@@ -6,16 +6,13 @@ services:
     command: >
       bash -c '
         rm -f tmp/pids/server.pid &&
-        bundle exec rails db:create &&
-        bundle exec rails db:migrate &&
-        bundle exec rails db:seed &&
+        bundle exec rails db:prepare &&
         bundle exec rails s -b 0.0.0.0 -p 3000
       '
     ports:
       - "3000:3000"
     environment:
       - RAILS_ENV=development
-      - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - DATABASE_URL=postgres://postgres:postgres@db:5432/default_template_r8_development
@@ -37,7 +34,6 @@ services:
     command: bundle exec sidekiq
     environment:
       - RAILS_ENV=development
-      - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - DATABASE_URL=postgres://postgres:postgres@db:5432/default_template_r8_development
@@ -49,6 +45,16 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+  css:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    # `always` keeps the watcher alive without a TTY (see tailwindcss-rails README).
+    command: bin/rails tailwindcss:watch[always]
+    environment:
+      - RAILS_ENV=development
+    volumes:
+      - .:/rails
   db:
     image: postgres:16
     command: >
