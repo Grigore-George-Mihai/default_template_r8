@@ -33,7 +33,7 @@ System specs (`spec/system/`, `type: :system`) run in headless Chrome via Seleni
 
 SimpleCov runs automatically with RSpec; coverage excludes bin, db, spec, config. Specs run in random order (`--seed N` to reproduce).
 
-`app/assets/builds/` is not committed. The layout needs the compiled stylesheet, so on a fresh clone run `bin/rails tailwindcss:build` (or `bin/dev`) before specs — otherwise they fail with `Propshaft::MissingAssetError`. CI does this as its own step.
+`app/assets/builds/` is not committed. The layout needs the compiled stylesheet, so on a fresh clone run `bin/rails test:prepare` (tailwindcss-rails hooks its build into it; `bin/dev` also works) before specs — otherwise they fail with `Propshaft::MissingAssetError`. CI runs it together with `db:test:prepare`.
 
 ## Linting & Security
 
@@ -57,7 +57,8 @@ bin/importmap audit          # JS dependency security scan
 
 ### Frontend
 
-- Tailwind CSS v4 (`app/assets/tailwind/application.css`): a bare `border`/`border-t`/`border-b` defaults to `currentColor` (dark), so always pair it with a colour — the template uses `border-gray-200`.
+- Tailwind CSS v4 (`app/assets/tailwind/application.css`): a base-layer rule restores the v3 `gray-200` default border colour (v4 uses `currentColor`), so a bare `border` is light grey; add `border-<colour>` only to override it.
+- The `<header>` is `relative z-20` and flash messages are `fixed z-10`, so header menus always open above flashes. Don't add per-menu z-indexes.
 
 ### Background Jobs
 

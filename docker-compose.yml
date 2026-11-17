@@ -1,8 +1,14 @@
+# Shared by the web, sidekiq and css services (all run the Dockerfile.dev image with the code mounted).
+x-app: &app
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  volumes:
+    - .:/rails
+
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    <<: *app
     command: >
       bash -c '
         rm -f tmp/pids/server.pid &&
@@ -13,8 +19,6 @@ services:
       - "3000:3000"
     environment:
       - RAILS_ENV=development
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
       - DATABASE_URL=postgres://postgres:postgres@db:5432/default_template_r8_development
       - REDIS_CACHE_URL=redis://redis:6379/0
       - REDIS_SIDEKIQ_URL=redis://redis:6379/1
@@ -28,33 +32,21 @@ services:
       redis:
         condition: service_healthy
   sidekiq:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    <<: *app
     command: bundle exec sidekiq
     environment:
       - RAILS_ENV=development
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
       - DATABASE_URL=postgres://postgres:postgres@db:5432/default_template_r8_development
       - REDIS_SIDEKIQ_URL=redis://redis:6379/1
-    volumes:
-      - .:/rails
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
   css:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    <<: *app
     # `always` keeps the watcher alive without a TTY (see tailwindcss-rails README).
     command: bin/rails tailwindcss:watch[always]
-    environment:
-      - RAILS_ENV=development
-    volumes:
-      - .:/rails
   db:
     image: postgres:16
     command: >

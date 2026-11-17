@@ -1,4 +1,5 @@
-<header class="bg-white border-b border-gray-200">
+<%# relative z-20 puts the whole header, menus included, above the flash messages (z-10) %>
+<header class="relative z-20 bg-white border-b">
   <nav class="container mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <!-- Brand -->
@@ -23,7 +24,7 @@
                   <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                 </svg>
               </summary>
-              <div class="absolute right-0 mt-1 w-44 rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden z-20">
+              <div class="absolute right-0 mt-1 w-44 rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden">
                 <ul class="py-1 text-sm text-gray-700">
                   <li><%= link_to "Sidekiq", "/sidekiq", class: "block px-4 py-2 hover:bg-gray-50", target: "_blank" %></li>
                   <li><%= link_to "PgHero", "/pghero", class: "block px-4 py-2 hover:bg-gray-50", target: "_blank" %></li>
@@ -42,7 +43,7 @@
                 <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
               </svg>
             </summary>
-            <div class="absolute right-0 mt-1 w-44 rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden z-20">
+            <div class="absolute right-0 mt-1 w-44 rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden">
               <ul class="py-1 text-sm text-gray-700">
                 <li><%= link_to "Profile", edit_user_registration_path, class: "block px-4 py-2 hover:bg-gray-50" %></li>
                 <li><%= link_to "Logout", destroy_user_session_path, class: "block px-4 py-2 hover:bg-gray-50", data: { turbo_method: :delete } %></li>
@@ -59,7 +60,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
           </summary>
-          <div class="absolute right-0 top-full z-20 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+          <div class="absolute right-0 top-full mt-2 w-56 bg-white border rounded-xl shadow-lg overflow-hidden">
             <% if current_user.admin? %>
               <div class="px-2 py-3">
                 <p class="px-1 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Admin</p>
@@ -72,7 +73,7 @@
                 </nav>
               </div>
             <% end %>
-            <div class="border-t border-gray-200 px-2 py-3">
+            <div class="border-t px-2 py-3">
               <p class="px-1 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Account</p>
               <nav class="space-y-1">
                 <%= link_to "Profile", edit_user_registration_path, class: "block rounded-md px-3 py-2 text-sm hover:bg-gray-100" %>

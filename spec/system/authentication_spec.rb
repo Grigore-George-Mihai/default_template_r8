@@ -8,7 +8,7 @@ RSpec.describe "Authentication", type: :system do
   def sign_in_with_form(user)
     visit new_user_session_path
     fill_in "Email", with: user.email
-    fill_in "Password", with: "Password123!"
+    fill_in "Password", with: user.password
     click_button "Log in"
   end
 
@@ -19,34 +19,20 @@ RSpec.describe "Authentication", type: :system do
     expect(page.evaluate_script("typeof window.Turbo")).to eq("object")
   end
 
-  it "signs in through the form" do
+  it "signs in through the form and closes the flash message (Stimulus)" do
     sign_in_with_form(user)
 
     expect(page).to have_css("h1", text: "Everything included")
-    expect(page).to have_text("Signed in successfully.")
-  end
-
-  it "closes the flash message (Stimulus)" do
-    sign_in_with_form(user)
-
-    within("[role=alert]") { click_button "Close" }
+    expect(page).to have_css("[role=alert]", text: "Signed in successfully.")
+    find("[role=alert]").click_button("Close")
     expect(page).to have_no_css("[role=alert]")
   end
 
   # Clicking (not just finding) fails if the flash sits on top of the menu.
-  it "keeps the header menu clickable while a flash message is showing" do
+  # Logout uses data-turbo-method: :delete, so this also only passes when Turbo is running.
+  it "signs out from the account menu while a flash message is showing" do
     sign_in_with_form(user)
     expect(page).to have_css("[role=alert]")
-
-    find("summary", text: "Account").click
-    click_link "Logout"
-    expect(page).to have_current_path(new_user_session_path)
-  end
-
-  # Logout uses data-turbo-method: :delete, so this only passes when Turbo is running.
-  it "signs out from the account menu" do
-    sign_in user
-    visit root_path
 
     find("summary", text: "Account").click
     click_link "Logout"

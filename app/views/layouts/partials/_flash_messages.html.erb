@@ -1,5 +1,5 @@
 <% unless flash.empty? %>
-  <%# top-20 keeps flashes below the h-16 header; z-10 keeps them under the header menus (z-20) %>
+  <%# top-20 keeps flashes below the h-16 header; z-10 keeps them under the header (z-20) and its menus %>
   <div class="fixed inset-x-4 top-20 z-10 flex flex-col items-end gap-3 sm:inset-x-auto sm:right-6">
     <% flash.each do |type, message| %>
       <div data-controller="base--flash"

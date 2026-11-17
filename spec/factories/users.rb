@@ -6,7 +6,7 @@ FactoryBot.define do
     last_name  { Faker::Name.last_name }
     sequence(:email) { |n| "user#{n}@example.com" }
     password { "Password123!" }
-    password_confirmation { "Password123!" }
+    password_confirmation { password }
     role { :user }
 
     trait :admin do
